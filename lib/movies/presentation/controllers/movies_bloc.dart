@@ -23,8 +23,6 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
           ),
         ),
       );
-
-      print(result);
     });
   }
 }
