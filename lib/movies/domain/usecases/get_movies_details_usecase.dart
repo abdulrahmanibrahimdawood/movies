@@ -25,6 +25,5 @@ class MoviesDetailsParameters extends Equatable {
   const MoviesDetailsParameters({required this.movieId});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [movieId];
 }
