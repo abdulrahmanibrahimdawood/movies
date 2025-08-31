@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies/core/services/services_locator.dart';
-
 import 'package:movies/movies/presentation/components/now_playing_component.dart';
 import 'package:movies/movies/presentation/components/popular_component.dart';
 import 'package:movies/movies/presentation/components/toprated_component.dart';
