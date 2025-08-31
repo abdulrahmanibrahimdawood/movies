@@ -5,8 +5,8 @@ import 'package:movies/core/utils/request_state.dart';
 import 'package:movies/movies/domain/usecases/get_now_playing_movies_usecase.dart';
 import 'package:movies/movies/domain/usecases/get_populer_movies_usecase.dart';
 import 'package:movies/movies/domain/usecases/get_top_rated_movies_usecase.dart';
-import 'package:movies/movies/presentation/controllers/movies_event.dart';
-import 'package:movies/movies/presentation/controllers/movies_state.dart';
+import 'package:movies/movies/presentation/controllers/movies_bloc/movies_event.dart';
+import 'package:movies/movies/presentation/controllers/movies_bloc/movies_state.dart';
 
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final GetNowPlayingMoviesUsecase getNowPlayingMoviesUseCase;

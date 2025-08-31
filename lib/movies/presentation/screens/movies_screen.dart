@@ -5,8 +5,8 @@ import 'package:movies/core/services/services_locator.dart';
 import 'package:movies/movies/presentation/components/now_playing_component.dart';
 import 'package:movies/movies/presentation/components/popular_component.dart';
 import 'package:movies/movies/presentation/components/toprated_component.dart';
-import 'package:movies/movies/presentation/controllers/movies_bloc.dart';
-import 'package:movies/movies/presentation/controllers/movies_event.dart';
+import 'package:movies/movies/presentation/controllers/movies_bloc/movies_bloc.dart';
+import 'package:movies/movies/presentation/controllers/movies_bloc/movies_event.dart';
 
 class MoviesScreen extends StatelessWidget {
   const MoviesScreen({super.key});

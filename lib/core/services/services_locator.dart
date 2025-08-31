@@ -6,7 +6,7 @@ import 'package:movies/movies/domain/usecases/get_now_playing_movies_usecase.dar
 import 'package:movies/movies/domain/usecases/get_populer_movies_usecase.dart';
 import 'package:movies/movies/domain/usecases/get_top_rated_movies_usecase.dart';
 
-import 'package:movies/movies/presentation/controllers/movies_bloc.dart';
+import 'package:movies/movies/presentation/controllers/movies_bloc/movies_bloc.dart';
 
 final sl = GetIt.instance;
 

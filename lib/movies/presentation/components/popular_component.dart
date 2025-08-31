@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/network/api_constance.dart';
 import 'package:movies/core/utils/request_state.dart';
-import 'package:movies/movies/presentation/controllers/movies_bloc.dart';
-import 'package:movies/movies/presentation/controllers/movies_state.dart';
+import 'package:movies/movies/presentation/controllers/movies_bloc/movies_bloc.dart';
+import 'package:movies/movies/presentation/controllers/movies_bloc/movies_state.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PopularComponent extends StatelessWidget {
