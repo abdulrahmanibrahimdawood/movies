@@ -15,12 +15,12 @@ class GetMoviesDetailsUsecase
   Future<Either<Failure, MovieDetailsEntity>> call(
     MoviesDetailsParameters parameters,
   ) async {
-    return await baseMoviesRepos.getMoviesDetails();
+    return await baseMoviesRepos.getMoviesDetails(parameters);
   }
 }
 
 class MoviesDetailsParameters extends Equatable {
-  final int movieId;
+  final String movieId;
 
   const MoviesDetailsParameters({required this.movieId});
 

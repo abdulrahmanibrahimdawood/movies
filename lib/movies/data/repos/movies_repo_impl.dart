@@ -5,6 +5,7 @@ import 'package:movies/movies/data/datasource/movies_remote_data_source.dart';
 import 'package:movies/movies/domain/entites/movie_details_entity.dart';
 import 'package:movies/movies/domain/entites/movies_entity.dart';
 import 'package:movies/movies/domain/repos/base_movies_repos.dart';
+import 'package:movies/movies/domain/usecases/get_movies_details_usecase.dart';
 
 class MoviesRepoImpl extends BaseMoviesRepos {
   BaseMoviesRemoteDataSource baseMoviesRemoteDataSource;
@@ -46,7 +47,18 @@ class MoviesRepoImpl extends BaseMoviesRepos {
   }
 
   @override
-  Future<Either<Failure, MovieDetailsEntity>> getMoviesDetails() {
-    throw UnimplementedError();
+  Future<Either<Failure, MovieDetailsEntity>> getMoviesDetails(
+    MoviesDetailsParameters parameters,
+  ) async {
+    final result = await baseMoviesRemoteDataSource.getMoviesDetails(
+      parameters,
+    );
+    try {
+      return Right(result);
+    } on ServerException catch (failure) {
+      return Left(
+        ServerFailure(message: failure.errorMessageModel.statusMessage),
+      );
+    }
   }
 }
