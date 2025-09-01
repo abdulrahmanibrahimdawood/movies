@@ -7,6 +7,7 @@ import 'package:movies/core/network/api_constance.dart';
 import 'package:movies/core/utils/request_state.dart';
 import 'package:movies/movies/presentation/controllers/movies_bloc/movies_bloc.dart';
 import 'package:movies/movies/presentation/controllers/movies_bloc/movies_state.dart';
+import 'package:movies/movies/presentation/screens/movie_details_screen.dart';
 
 class NowPlayingComponent extends StatelessWidget {
   const NowPlayingComponent({super.key});
@@ -25,7 +26,7 @@ class NowPlayingComponent extends StatelessWidget {
             );
           case RequestState.loaded:
             return FadeIn(
-              duration: const Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 500),
               child: CarouselSlider(
                 options: CarouselOptions(
                   height: 400.0,
@@ -34,8 +35,15 @@ class NowPlayingComponent extends StatelessWidget {
                 ),
                 items: state.nowPlayingMovies.map((item) {
                   return GestureDetector(
-                    key: const Key('openMovieMinimalDetail'),
-                    onTap: () {},
+                    key: Key('openMovieMinimalDetail'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MovieDetailsScreen(id: item.id),
+                        ),
+                      );
+                    },
                     child: Stack(
                       children: [
                         ShaderMask(
@@ -44,7 +52,6 @@ class NowPlayingComponent extends StatelessWidget {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                // fromLTRB
                                 Colors.transparent,
                                 Colors.black,
                                 Colors.black,

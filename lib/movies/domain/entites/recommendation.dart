@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class RecommendationEntity extends Equatable {
   final int id;
-  final String backdropPath;
+  final String? backdropPath;
 
   const RecommendationEntity({required this.id, required this.backdropPath});
   @override
