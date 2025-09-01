@@ -4,8 +4,10 @@ import 'package:movies/core/error/failure.dart';
 import 'package:movies/movies/data/datasource/movies_remote_data_source.dart';
 import 'package:movies/movies/domain/entites/movie_details_entity.dart';
 import 'package:movies/movies/domain/entites/movies_entity.dart';
+import 'package:movies/movies/domain/entites/recommendation.dart';
 import 'package:movies/movies/domain/repos/base_movies_repos.dart';
 import 'package:movies/movies/domain/usecases/get_movies_details_usecase.dart';
+import 'package:movies/movies/domain/usecases/get_recommendation_usecase.dart';
 
 class MoviesRepoImpl extends BaseMoviesRepos {
   BaseMoviesRemoteDataSource baseMoviesRemoteDataSource;
@@ -60,5 +62,12 @@ class MoviesRepoImpl extends BaseMoviesRepos {
         ServerFailure(message: failure.errorMessageModel.statusMessage),
       );
     }
+  }
+
+  @override
+  Future<Either<Failure, List<RecommendationEntity>>> getMovieRecommendation(
+    RecommendationParameters parameters,
+  ) {
+    throw UnimplementedError();
   }
 }

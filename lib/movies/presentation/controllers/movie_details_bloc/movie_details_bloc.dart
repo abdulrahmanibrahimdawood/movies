@@ -21,7 +21,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     Emitter<MovieDetailsState> emit,
   ) async {
     final result = await getMoviesDetailsUsecase(
-      MoviesDetailsParameters(movieId: event.id.toString()),
+      MoviesDetailsParameters(movieId: event.id),
     );
     result.fold(
       (l) => emit(
