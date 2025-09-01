@@ -67,7 +67,16 @@ class MoviesRepoImpl extends BaseMoviesRepos {
   @override
   Future<Either<Failure, List<RecommendationEntity>>> getMovieRecommendation(
     RecommendationParameters parameters,
-  ) {
-    throw UnimplementedError();
+  ) async {
+    final result = await baseMoviesRemoteDataSource.getMovieRecommendation(
+      parameters,
+    );
+    try {
+      return Right(result);
+    } on ServerException catch (failure) {
+      return Left(
+        ServerFailure(message: failure.errorMessageModel.statusMessage),
+      );
+    }
   }
 }

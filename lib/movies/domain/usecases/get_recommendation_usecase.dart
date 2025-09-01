@@ -19,7 +19,7 @@ class GetRecommendationUsecase
 }
 
 class RecommendationParameters extends Equatable {
-  final int id;
+  final String id;
 
   const RecommendationParameters({required this.id});
   @override
