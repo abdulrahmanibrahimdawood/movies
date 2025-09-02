@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies/core/network/api_constance.dart';
 import 'package:movies/core/services/services_locator.dart';
+import 'package:movies/core/utils/app_strings.dart';
 import 'package:movies/core/utils/recommendation_dummy.dart';
 import 'package:movies/core/utils/request_state.dart';
 import 'package:movies/movies/domain/entites/genres_entity.dart';
@@ -164,7 +165,7 @@ class MovieDetailContent extends StatelessWidget {
                       ),
                       const SizedBox(height: 8.0),
                       Text(
-                        'Genres: ${_showGenres(state.movieDetailsEntity!.genres)}',
+                        '${AppString.genres}: ${_showGenres(state.movieDetailsEntity!.genres)}',
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 12.0,
@@ -184,7 +185,7 @@ class MovieDetailContent extends StatelessWidget {
                   from: 20,
                   duration: const Duration(milliseconds: 500),
                   child: Text(
-                    'More like this'.toUpperCase(),
+                    AppString.moreLikeThis,
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w500,
