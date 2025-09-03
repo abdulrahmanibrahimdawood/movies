@@ -1,11 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/network/api_constance.dart';
 import 'package:movies/core/utils/request_state.dart';
 import 'package:movies/movies/presentation/controllers/movies_bloc/movies_bloc.dart';
 import 'package:movies/movies/presentation/controllers/movies_bloc/movies_state.dart';
+import 'package:movies/movies/presentation/screens/movie_details_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PopularComponent extends StatelessWidget {
@@ -38,7 +40,15 @@ class PopularComponent extends StatelessWidget {
                     return Container(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  MovieDetailsScreen(id: movie.id),
+                            ),
+                          );
+                        },
                         child: ClipRRect(
                           borderRadius: const BorderRadius.all(
                             Radius.circular(8.0),
@@ -48,8 +58,8 @@ class PopularComponent extends StatelessWidget {
                             fit: BoxFit.cover,
                             imageUrl: ApiConstance.imageUrl(movie.backdropPath),
                             placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[850]!,
-                              highlightColor: Colors.grey[800]!,
+                              baseColor: Colors.grey[850] ?? Colors.grey,
+                              highlightColor: Colors.grey[800] ?? Colors.grey,
                               child: Container(
                                 height: 170.0,
                                 width: 120.0,

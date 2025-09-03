@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movies/core/network/api_constance.dart';
 import 'package:movies/core/services/services_locator.dart';
 import 'package:movies/core/utils/app_strings.dart';
-import 'package:movies/core/utils/recommendation_dummy.dart';
 import 'package:movies/core/utils/request_state.dart';
 import 'package:movies/movies/domain/entites/genres_entity.dart';
 import 'package:movies/movies/presentation/controllers/movie_details_bloc/movie_details_bloc.dart';
@@ -37,171 +36,187 @@ class MovieDetailContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
       builder: (context, state) {
-        return CustomScrollView(
-          key: const Key('movieDetailScrollView'),
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              expandedHeight: 250.0,
-              flexibleSpace: FlexibleSpaceBar(
-                background: FadeIn(
-                  duration: const Duration(milliseconds: 500),
-                  child: ShaderMask(
-                    shaderCallback: (rect) {
-                      return const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black,
-                          Colors.black,
-                          Colors.transparent,
-                        ],
-                        stops: [0.0, 0.5, 1.0, 1.0],
-                      ).createShader(
-                        Rect.fromLTRB(0.0, 0.0, rect.width, rect.height),
-                      );
-                    },
-                    blendMode: BlendMode.dstIn,
-                    child: CachedNetworkImage(
-                      width: MediaQuery.of(context).size.width,
-                      imageUrl: ApiConstance.imageUrl(
-                        state.movieDetailsEntity!.backdropPath,
+        switch (state.movieDetailsState) {
+          case RequestState.loading:
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          case RequestState.error:
+            return Scaffold(
+              body: Center(child: Text(state.movieDetailsMessage)),
+            );
+          case RequestState.loaded:
+            return CustomScrollView(
+              key: const Key('movieDetailScrollView'),
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  expandedHeight: 250.0,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: FadeIn(
+                      duration: const Duration(milliseconds: 500),
+                      child: ShaderMask(
+                        shaderCallback: (rect) {
+                          return const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black,
+                              Colors.black,
+                              Colors.transparent,
+                            ],
+                            stops: [0.0, 0.5, 1.0, 1.0],
+                          ).createShader(
+                            Rect.fromLTRB(0.0, 0.0, rect.width, rect.height),
+                          );
+                        },
+                        blendMode: BlendMode.dstIn,
+                        child: CachedNetworkImage(
+                          width: MediaQuery.of(context).size.width,
+                          imageUrl: ApiConstance.imageUrl(
+                            state.movieDetailsEntity?.backdropPath ?? '',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: FadeInUp(
-                from: 20,
-                duration: const Duration(milliseconds: 500),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        state.movieDetailsEntity!.title,
-                        style: GoogleFonts.poppins(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Row(
+                SliverToBoxAdapter(
+                  child: FadeInUp(
+                    from: 20,
+                    duration: const Duration(milliseconds: 500),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 2.0,
-                              horizontal: 8.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[800],
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                            child: Text(
-                              state.movieDetailsEntity!.releaseDate.split(
-                                '-',
-                              )[0],
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          Text(
+                            state.movieDetailsEntity?.title ?? '',
+                            style: GoogleFonts.poppins(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.2,
                             ),
                           ),
-                          const SizedBox(width: 16.0),
+                          const SizedBox(height: 8.0),
                           Row(
                             children: [
-                              const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 20.0,
-                              ),
-                              const SizedBox(width: 4.0),
-                              Text(
-                                (state.movieDetailsEntity!.voteAverage / 2)
-                                    .toStringAsFixed(1),
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 1.2,
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 2.0,
+                                  horizontal: 8.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[800],
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Text(
+                                  state.movieDetailsEntity?.releaseDate.split(
+                                        '-',
+                                      )[0] ??
+                                      '',
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 4.0),
+                              const SizedBox(width: 16.0),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 20.0,
+                                  ),
+                                  const SizedBox(width: 4.0),
+                                  Text(
+                                    ((state.movieDetailsEntity?.voteAverage ??
+                                                0) /
+                                            2)
+                                        .toStringAsFixed(1),
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4.0),
+                                  Text(
+                                    '(${state.movieDetailsEntity?.voteAverage ?? 0})',
+                                    style: const TextStyle(
+                                      fontSize: 1.0,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 16.0),
                               Text(
-                                '(${state.movieDetailsEntity!.voteAverage})',
+                                _showDuration(
+                                  state.movieDetailsEntity?.runtime ?? 0,
+                                ),
                                 style: const TextStyle(
-                                  fontSize: 1.0,
+                                  color: Colors.white70,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.2,
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(width: 16.0),
+                          const SizedBox(height: 20.0),
                           Text(
-                            _showDuration(state.movieDetailsEntity!.runtime),
+                            state.movieDetailsEntity?.overview ?? '',
+                            style: const TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            '${AppString.genres}: ${_showGenres(state.movieDetailsEntity?.genres ?? [])}',
                             style: const TextStyle(
                               color: Colors.white70,
-                              fontSize: 16.0,
+                              fontSize: 12.0,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 1.2,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20.0),
-                      Text(
-                        state.movieDetailsEntity!.overview,
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+                  sliver: SliverToBoxAdapter(
+                    child: FadeInUp(
+                      from: 20,
+                      duration: const Duration(milliseconds: 500),
+                      child: Text(
+                        AppString.moreLikeThis,
                         style: const TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        '${AppString.genres}: ${_showGenres(state.movieDetailsEntity!.genres)}',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.2,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
-              sliver: SliverToBoxAdapter(
-                child: FadeInUp(
-                  from: 20,
-                  duration: const Duration(milliseconds: 500),
-                  child: Text(
-                    AppString.moreLikeThis,
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 1.2,
                     ),
                   ),
                 ),
-              ),
-            ),
-            // Tab(text: 'More like this'.toUpperCase()),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
-              sliver: _showRecommendations(),
-            ),
-          ],
-        );
+                // Tab(text: 'More like this'.toUpperCase()),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
+                  sliver: _showRecommendations(),
+                ),
+              ],
+            );
+        }
       },
     );
   }
@@ -235,9 +250,11 @@ class MovieDetailContent extends StatelessWidget {
       builder: (context, state) {
         switch (state.recommendationState) {
           case RequestState.loading:
-            return Center(child: CircularProgressIndicator());
+            return const SliverToBoxAdapter(
+              child: Center(child: CircularProgressIndicator()),
+            );
           case RequestState.loaded:
-            SliverGrid(
+            return SliverGrid(
               delegate: SliverChildBuilderDelegate((context, index) {
                 final recommendation = state.recommendationEntity[index];
                 return FadeInUp(
@@ -247,11 +264,11 @@ class MovieDetailContent extends StatelessWidget {
                     borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                     child: CachedNetworkImage(
                       imageUrl: ApiConstance.imageUrl(
-                        recommendation.backdropPath!,
+                        recommendation.backdropPath ?? '',
                       ),
                       placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: Colors.grey[850]!,
-                        highlightColor: Colors.grey[800]!,
+                        baseColor: Colors.grey[850] ?? Colors.grey,
+                        highlightColor: Colors.grey[800] ?? Colors.grey,
                         child: Container(
                           height: 170.0,
                           width: 120.0,
@@ -268,7 +285,7 @@ class MovieDetailContent extends StatelessWidget {
                     ),
                   ),
                 );
-              }, childCount: recommendationDummy.length),
+              }, childCount: state.recommendationEntity.length),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 8.0,
@@ -276,9 +293,10 @@ class MovieDetailContent extends StatelessWidget {
                 crossAxisCount: 3,
               ),
             );
-            throw UnimplementedError();
           case RequestState.error:
-            return Center(child: Text(state.recommendationMessage));
+            return SliverToBoxAdapter(
+              child: Center(child: Text(state.recommendationMessage)),
+            );
         }
       },
     );
